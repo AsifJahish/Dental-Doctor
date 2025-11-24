@@ -5,6 +5,8 @@ import bcrypt
 from db_connection import get_connection
 from doctor_dashboard import DoctorDashboard
 
+
+
 class DoctorLoginWindow(QWidget):
     def __init__(self):
         super().__init__()
