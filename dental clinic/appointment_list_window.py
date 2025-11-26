@@ -70,9 +70,9 @@ class AppointmentListPage(QWidget):
         self.setLayout(layout)
 
         # AUTO-REFRESH
-        self.timer = QTimer()
-        self.timer.timeout.connect(self.load_appointments)
-        self.timer.start(1000)
+        # self.timer = QTimer()
+        # self.timer.timeout.connect(self.load_appointments)
+        # self.timer.start(1000)
 
         self.load_appointments()
 
@@ -102,7 +102,7 @@ class AppointmentListPage(QWidget):
         
         self.timer = QTimer()
         self.timer.timeout.connect(self.load_appointments)
-        self.timer.start(10) 
+        self.timer.start(1000) 
 
         cur.close()
         conn.close()

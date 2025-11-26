@@ -1,0 +1,3 @@
+PyQt5
+reportlab
+psycopg2-binary

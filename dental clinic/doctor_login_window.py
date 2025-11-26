@@ -1,10 +1,13 @@
 
-from PyQt5.QtWidgets import QWidget, QLabel, QLineEdit, QPushButton, QMessageBox, QApplication
+
+from PyQt5.QtWidgets import (
+    QWidget, QLabel, QLineEdit, QPushButton, QMessageBox,
+    QApplication, QVBoxLayout, QHBoxLayout, QFrame
+)
 from PyQt5.QtCore import Qt
 import bcrypt
 from db_connection import get_connection
 from doctor_dashboard import DoctorDashboard
-
 
 
 class DoctorLoginWindow(QWidget):
@@ -17,29 +20,76 @@ class DoctorLoginWindow(QWidget):
         screen_height = screen.height()
 
         window_width = screen_width // 2
-        window_height = screen_height // 2  # or set fixed height like 300
+        window_height = screen_height // 2
 
-        # Centering the window
         x = (screen_width - window_width) // 2
         y = (screen_height - window_height) // 2
 
         self.setGeometry(x, y, window_width, window_height)
         self.setWindowTitle("Dental Clinic - Doctor Login")
+        self.setStyleSheet("background-color: #f0f2f5;")
 
-        # -------------------------------------------
+        # ========= MAIN LAYOUT =========
+        main_layout = QVBoxLayout()
+        main_layout.setAlignment(Qt.AlignCenter)
 
-        QLabel("Username:", self).move(50, 80)
-        self.username = QLineEdit(self)
-        self.username.move(160, 80)
+        # -------- CARD FRAME (WHITE BOX) --------
+        card = QFrame()
+        card.setStyleSheet("""
+            QFrame {
+                background: white;
+                border-radius: 15px;
+                padding: 30px;
+            }
+            QLabel {
+                font-size: 20px;
+                font-weight: bold;
+            }
+            QLineEdit {
+                font-size: 25px;
+                padding: 8px;
+                font-weight: bold;
+                border: 1px solid #bfc3c7;
+                border-radius: 10px;
+            }
+            QPushButton {
+                background-color: #2b7cff;
+                color: white;
+                font-size: 25px;
+                padding: 10px;
+                font-weight: bold;
+                border-radius: 10px;
+            }
+            QPushButton:hover {
+                background-color: #5b9aff;
+            }
+        """)
 
-        QLabel("Password:", self).move(50, 140)
-        self.password = QLineEdit(self)
+        card_layout = QVBoxLayout()
+        card_layout.setSpacing(20)
+
+        # ---------- Username ----------
+        username_label = QLabel("Username:")
+        self.username = QLineEdit()
+        card_layout.addWidget(username_label)
+        card_layout.addWidget(self.username)
+
+        # ---------- Password ----------
+        password_label = QLabel("Password:")
+        self.password = QLineEdit()
         self.password.setEchoMode(QLineEdit.Password)
-        self.password.move(160, 140)
+        card_layout.addWidget(password_label)
+        card_layout.addWidget(self.password)
 
-        login_btn = QPushButton("Login", self)
-        login_btn.move(160, 200)
+        # ---------- Login Button ----------
+        login_btn = QPushButton("Login")
         login_btn.clicked.connect(self.login)
+        card_layout.addWidget(login_btn)
+
+        card.setLayout(card_layout)
+        main_layout.addWidget(card)
+
+        self.setLayout(main_layout)
 
     def login(self):
         user = self.username.text()
